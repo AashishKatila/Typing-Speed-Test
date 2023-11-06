@@ -1,9 +1,13 @@
 const typingText = document.querySelector('.typing-text p')
 inputField = document.querySelector(".input-field"),
-mistakeTag = document.querySelector(".mistake span")
+mistakeTag = document.querySelector(".mistake span"),
+timeTag = document.querySelector(".time b")
 
 let charIndex = 0;
 let mistakes = 0;
+let timer ,maxTime = 60;
+let timeLeft = maxTime;
+let isTyping = false
 
 
 function loadParagraph(){
@@ -24,6 +28,10 @@ function initTyping(){
     //Stores the typed character in the input field
     let typedCharacter = inputField.value.split("")[charIndex];
     // console.log(typedCharacter)
+    if(!isTyping){
+        timer = setInterval(initTimer,1000);
+        isTyping = true;
+    }
     if(typedCharacter == null){
         charIndex--;
         //decrement mistakes number only if typed character is wrong
@@ -50,6 +58,16 @@ function initTyping(){
     characters[charIndex].classList.add("active")
     //Shows no of mistakes
     mistakeTag.innerText = mistakes
+}
+
+function initTimer(){
+    if(timeLeft>0){
+        timeLeft--
+        timeTag.innerText = timeLeft
+    }
+    else{
+        clearInterval(timer)
+    }
 }
 
 
