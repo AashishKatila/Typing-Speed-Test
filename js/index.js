@@ -1,7 +1,9 @@
 const typingText = document.querySelector('.typing-text p')
 inputField = document.querySelector(".input-field"),
 mistakeTag = document.querySelector(".mistake span"),
-timeTag = document.querySelector(".time b")
+timeTag = document.querySelector(".time b"),
+cpmTag = document.querySelector(".cpm span"),
+wpmTag = document.querySelector(".wpm span");
 
 let charIndex = 0;
 let mistakes = 0;
@@ -56,8 +58,13 @@ function initTyping(){
     characters.forEach(span => span.classList.remove("active"))
     //To meke active class blink
     characters[charIndex].classList.add("active")
+    let wpm = Math.round((((charIndex-mistakes)/5)/(maxTime - timeLeft))*60)
+     wpm = wpm < 0 || !wpm || wpm === Infinity ? 0: wpm;
     //Shows no of mistakes
     mistakeTag.innerText = mistakes
+    cpmTag.innerText = charIndex - mistakes
+    wpmTag.innerText = wpm
+
 }
 
 function initTimer(){
