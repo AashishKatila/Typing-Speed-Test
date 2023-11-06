@@ -1,7 +1,10 @@
 const typingText = document.querySelector('.typing-text p')
-inputField = document.querySelector(".input-field")
+inputField = document.querySelector(".input-field"),
+mistakeTag = document.querySelector(".mistake span")
 
 let charIndex = 0;
+let mistakes = 0;
+
 
 function loadParagraph(){
     //shows random paragraph
@@ -21,13 +24,32 @@ function initTyping(){
     //Stores the typed character in the input field
     let typedCharacter = inputField.value.split("")[charIndex];
     // console.log(typedCharacter)
-    if(characters[charIndex].innerText === typedCharacter){
-        characters[charIndex].classList.add("correct")
+    if(typedCharacter == null){
+        charIndex--;
+        //decrement mistakes number only if typed character is wrong
+        if(characters[charIndex].classList.contains("incorrect")){
+            mistakes--;
+        }
+        characters[charIndex].classList.remove("correct","incorrect")
     }
     else{
-        characters[charIndex].classList.add("incorrect")
+        if(characters[charIndex].innerText === typedCharacter){
+            characters[charIndex].classList.add("correct")
+        }
+        else{
+            //increments mistake
+            mistakes++
+            //adds incorrect class when typed wrong
+            characters[charIndex].classList.add("incorrect")
+        }
+        charIndex++;
     }
-    charIndex++;
+    //To meke only active class blink
+    characters.forEach(span => span.classList.remove("active"))
+    //To meke active class blink
+    characters[charIndex].classList.add("active")
+    //Shows no of mistakes
+    mistakeTag.innerText = mistakes
 }
 
 
